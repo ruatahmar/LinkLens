@@ -1,12 +1,11 @@
-//login 
-//register
-//logout
+import { registerUser, loginUser, logoutUser } from "../controller/auth.controller.js"
 import { Router } from "express"
 
 const authRouter = Router()
 
-userRouter.route("/login").post(loginUser);
-userRouter.route("/register").post(registerUser);
-userRouter.route("/logoutUser").post(logoutUser);
+authRouter.route("/login").post(loginUser);
+authRouter.route("/logoutUser").post(logoutUser);
+authRouter.post("/register", registerUser);
+
 
 export default authRouter;
