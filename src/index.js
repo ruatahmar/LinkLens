@@ -3,6 +3,10 @@ import cookieParser from "cookie-parser"
 import authRouter from "./routes/auth.routes.js"
 import connectDb from "./db/index.js"
 import jwtAuth from "./middleware/jwtAuth.middleware.js";
+import urlRouter from "./routes/url.routes.js";
+import apiError from "./util/apiError.js";
+import redirect from "./controller/redirect.controller.js";
+
 const port = process.env.port || 8000
 const app = express()
 
@@ -12,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //routes
 app.use("/auth", authRouter)
+app.use("/url", urlRouter)
 
 app.post("/tokenTester", jwtAuth, (req, res) => {
     console.log(req.user)
@@ -19,6 +24,31 @@ app.post("/tokenTester", jwtAuth, (req, res) => {
         message: "worked"
     })
 })
+
+app.get("/:shortCode", redirect)
+
+
+
+
+
+//global error handler
+app.use((err, req, res, next) => {
+    console.error(err);
+
+    if (err instanceof apiError) {
+        return res.status(err.statusCode).json({
+            status: err.statusCode,
+            message: err.message
+        });
+    }
+
+    return res.status(500).json({
+        status: 500,
+        message: "Internal Server Error"
+    });
+});
+
+
 
 //start server
 async function start() {

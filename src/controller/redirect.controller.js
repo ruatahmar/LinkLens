@@ -1,0 +1,39 @@
+import { analytics } from "../models/analytics.models.js";
+import { url } from "../models/url.models.js";
+import apiError from "../util/apiError.js";
+import apiResponse from "../util/apiResponse.js";
+import asyncHandler from "../util/asyncHandler.js";
+
+
+const redirect = asyncHandler(async (req, res, next) => {
+    const { shortCode } = req.params
+    const urlExist = await url.findOne({
+        shortCode
+    })
+    if (!urlExist) {
+        throw new apiError(400, "Url not found")
+    }
+    const timestamp = new Date();
+    const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const referrer = req.get("referer") || req.get("referrer") || null;
+    const userAgent = req.get("User-Agent");
+
+    const newAnalytics = await analytics.create({
+        urlId: urlExist._id,
+        userId: urlExist.userId,
+        timestamp,
+        ipAddress,
+        referrer,
+        userAgent
+    })
+
+    console.log(newAnalytics)
+    urlExist.clickCount += 1
+    console.log(urlExist)
+    await urlExist.save();
+
+    return res.redirect(urlExist.originalUrl)
+
+})
+
+export default redirect;

@@ -11,6 +11,7 @@ const jwtAuth = asyncHandler(async (req, res, next) => {
     if (!payload) {
         throw new apiError(401, "Token expired or incorrect.")
     }
+    console.log("payload ", payload)
     req.user = payload
     next()
 })

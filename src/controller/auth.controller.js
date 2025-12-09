@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 
 const generateTokens = async (userID) => {
 
-    const data = { userID }
+    const data = { _id: userID }
     const accessToken = generateAccessToken(data)
     const refreshToken = generateRefreshToken(data)
 
