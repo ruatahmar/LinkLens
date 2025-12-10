@@ -1,8 +1,9 @@
 import asyncHandler from "../util/asyncHandler.js";
 import { nanoid } from 'nanoid'
-import { url } from "../models/url.models.js"
+
 import apiError from "../util/apiError.js";
 import apiResponse from "../util/apiResponse.js";
+import { analytics } from "../models/analytics.models.js";
 
 const shortenUrl = asyncHandler(async (req, res, next) => {
     const { originalUrl, expiresAt } = req.body
@@ -41,6 +42,28 @@ const shortenUrl = asyncHandler(async (req, res, next) => {
 
 })
 
+const getStats = asyncHandler(async (req, res, next) => {
+    //get id for the url from params
+    const { urlId } = req.params
+    //get user id from req.user
+    const userId = req.user._id
+    //find in analytics in db using both
+    const urlExist = await analytics.find({
+        urlId,
+        userId
+    })
+    //check if it exists 
+    if (!urlExist) {
+        throw new apiError(404, "Url does not exist")
+    }
+    return res.status(200).json(
+        new apiResponse(
+            200,
+            urlExist,
+            "Fetch successful"
+        )
+    )
+    //returns
+})
 
-
-export { shortenUrl }
+export { shortenUrl, getStats }
