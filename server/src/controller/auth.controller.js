@@ -28,6 +28,17 @@ const registerUser = asyncHandler(async (req, res) => {
         email,
         password: hashedPassword
     })
+    const { accessToken, refreshToken } = await generateTokens(user._id)
+    //store only refresh tokens
+    user.refreshToken = refreshToken
+    await user.save({ validateBeforeSave: false })
+
+    //return both tokens in cookies 
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict"
+    }
 
     const createdUser = await users.findById(user._id).select(
         "-password -refreshToken"
@@ -35,9 +46,19 @@ const registerUser = asyncHandler(async (req, res) => {
     if (!createdUser) {
         throw new apiError(400, "Problem occured in creating user")
     }
-    return res.status(200).json(
-        new apiResponse(200, createdUser, "User has been successfully created ")
-    )
+    return res.status(200).cookie("refreshToken", refreshToken, options)
+        .cookie("accessToken", accessToken, options)
+        .json(
+            new apiResponse(
+                200,
+                {
+                    user,
+                    accessToken,
+                    refreshToken
+                },
+                "User account successfully created"
+            )
+        )
 })
 
 const loginUser = asyncHandler(async (req, res) => {

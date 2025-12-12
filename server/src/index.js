@@ -6,10 +6,12 @@ import jwtAuth from "./middleware/jwtAuth.middleware.js";
 import urlRouter from "./routes/url.routes.js";
 import apiError from "./util/apiError.js";
 import redirect from "./controller/redirect.controller.js";
+import cors from "cors"
 
 const port = process.env.port || 8000
 const app = express()
 
+app.use(cors())
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
