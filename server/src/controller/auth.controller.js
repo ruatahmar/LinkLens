@@ -37,7 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict"
+        sameSite: "lax"
     }
 
     const createdUser = await users.findById(user._id).select(
@@ -87,7 +87,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict"
+        sameSite: "lax"
     }
     return res.status(200).cookie("refreshToken", refreshToken, options)
         .cookie("accessToken", accessToken, options)

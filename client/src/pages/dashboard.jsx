@@ -1,6 +1,37 @@
 import NavBar from "../components/navbar"
-
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 export default function Dashboard(){
+    const [showForm, setShowForm] = useState(false)
+    const [originalUrl, setOriginalUrl] = useState("")
+    const navigate = useNavigate()
+    const createNewLink = async ()=> {
+        
+        try{
+            const response = await fetch("http://localhost:8080/url/shorten",{
+                method:"POST",
+                credentials: "include",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({originalUrl})
+            })
+            const data = await response.json()
+            if (!response.ok) {
+                alert(data.message);
+                return;
+            }
+            
+            console.log("Link Successfully Created")
+            navigate("/mylinks")
+        }
+
+        
+        catch(err){
+            console.log("error: ",err)
+            alert("Error occured:",err)
+        }
+    }
     return(
     <>
         <div className="flex flex-row h-screen w-screen bg-red ">
@@ -23,9 +54,52 @@ export default function Dashboard(){
                         <h1 className="font-bold text-5xl mt-3">100</h1>
                     </div>
                 </div>
-                <button>Create New Link</button>
+                <button
+                onClick={() => setShowForm(true)} 
+                className="bg-[#E5E6E4] border p-2 m rounded hover:bg-black hover:text-white">
+                    Create New Link
+                </button>
             </div>
         </div>
+        {/* FORM MODAL */}
+        {showForm && (
+            <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+                <div className="bg-white p-6 rounded-lg w-96">
+                    <h2 className="text-2xl font-bold mb-4">Create New Link</h2>
+
+                    <input
+                        type="text"
+                        name="originalUrl"
+                        value={originalUrl}
+                        onChange={(e)=>setOriginalUrl(e.target.value)}
+                        placeholder="Original URL"
+                        className="w-full border p-2 mb-3 rounded"
+                    />
+                    {/* <input
+                        type="text"
+                        
+                        placeholder="Custom Slug (optional)"
+                        className="w-full border p-2 mb-3 rounded"
+                    /> */}
+
+                    <div className="flex justify-end gap-3">
+                        <button
+                            onClick={() => setShowForm(false)}
+                            className="px-4 py-2 border rounded"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            onClick={createNewLink} 
+                            className="px-4 py-2 bg-black text-white rounded"
+                        >
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )}
     </>
     )
 }

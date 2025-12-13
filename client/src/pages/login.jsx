@@ -15,6 +15,7 @@ export default function Login() {
     try {
       const response = await fetch('http://localhost:8080/auth/login', {
         method: 'POST',
+        credentials: "include",
         headers: {
           'Content-Type': 'application/json',
         },
@@ -24,9 +25,6 @@ export default function Login() {
       const data = await response.json();
       if (response.ok) {
         console.log('Login successful:');
-
-        localStorage.setItem('token', data.token);
-
         navigate('/dashboard');
       } else {
         console.error('Login failed:', data.message);
