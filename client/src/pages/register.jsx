@@ -17,7 +17,7 @@ export default function Register() {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log('Register successful:', data);
+        console.log('Register successful:');
 
         localStorage.setItem('token', data.token);
 

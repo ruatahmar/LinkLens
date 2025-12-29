@@ -1,4 +1,4 @@
-import NavBar from "../components/navbar"
+import NavBar from "../components/navbar.components"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 export default function Dashboard(){
@@ -33,14 +33,14 @@ export default function Dashboard(){
         }
     }
     return(
-    <>
+    <>  {/* Main Screen */}
         <div className="flex flex-row h-screen w-screen bg-red ">
             <NavBar/>
             <div className="bg-[#F2F3F2] w-4/5 h-full p-10">
-                <h1 className="text-7xl font-bold">
+                <h1 className="text-7xl font-bold text-[#698796]">
                     DashBoard
                 </h1>
-                <div className="flex flex-row ">
+                <div className="flex flex-row">
                     <div className="m-10 p-8 h-40 w-50 border border-black flex flex-col rounded-lg">
                         <h3 className="text-2xl">Total Links</h3>
                         <h1 className="font-bold text-5xl mt-3">100</h1>
@@ -56,7 +56,7 @@ export default function Dashboard(){
                 </div>
                 <button
                 onClick={() => setShowForm(true)} 
-                className="bg-[#E5E6E4] border p-2 m rounded hover:bg-black hover:text-white">
+                className="bg-[#E5E6E4] border p-2 m rounded hover:bg-[#69968F] hover:text-white">
                     Create New Link
                 </button>
             </div>
