@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { login } from '../api/auth'
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,23 +14,9 @@ export default function Login() {
     
     e.preventDefault(); 
     try {
-      const response = await fetch('http://localhost:8080/auth/login', {
-        method: 'POST',
-        credentials: "include",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Login successful:');
-        navigate('/dashboard');
-      } else {
-        console.error('Login failed:', data.message);
-        alert(data.message);
-      }
+      const data = await login({email, password});
+      console.log(data)
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error logging in:', error);
       alert('Something went wrong. Please try again.');

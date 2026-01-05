@@ -1,12 +1,30 @@
 import NavBar from "../components/navbar.components"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { dashboardSummary } from "../api/dashboard"
 export default function Dashboard(){
+    const [summary, setSummary] = useState(null)
     const [showForm, setShowForm] = useState(false)
     const [originalUrl, setOriginalUrl] = useState("")
+
     const navigate = useNavigate()
+    useEffect(() => {
+        const fetchSummary = async () => {
+            try {
+                const res = await dashboardSummary();
+                console.log(res)
+                setSummary(res.data.data);
+            } catch (err) {
+                alert("Failed to load dashboard",err);
+            }
+            // finally {
+            //     setLoading(false);
+            // }
+        };
+
+        fetchSummary();
+    }, []);
     const createNewLink = async ()=> {
-        
         try{
             const response = await fetch("http://localhost:8080/url/shorten",{
                 method:"POST",
@@ -43,16 +61,16 @@ export default function Dashboard(){
                 <div className="flex flex-row">
                     <div className="m-10 p-8 h-40 w-50 border border-black flex flex-col rounded-lg">
                         <h3 className="text-2xl">Total Links</h3>
-                        <h1 className="font-bold text-5xl mt-3">100</h1>
+                        <h1 className="font-bold text-5xl mt-3">{summary.totalLinks}</h1>
                     </div>
                     <div className="m-10 p-8 h-40 w-50 border border-black flex flex-col rounded-lg">
                         <h3 className="text-2xl">Total Clicks</h3>
-                        <h1 className="font-bold text-5xl mt-3">100</h1>
+                        <h1 className="font-bold text-5xl mt-3">{summary.totalClicks}</h1>
                     </div>
-                    <div className="m-10 p-8 h-40 w-55 border border-black flex flex-col rounded-lg">
+                    {/* <div className="m-10 p-8 h-40 w-55 border border-black flex flex-col rounded-lg">
                         <h3 className="text-2xl">Unique Clicks</h3>
                         <h1 className="font-bold text-5xl mt-3">100</h1>
-                    </div>
+                    </div> */}
                 </div>
                 <button
                 onClick={() => setShowForm(true)} 

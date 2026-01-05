@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { register } from "../api/auth";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -8,24 +9,9 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try{
-      const response = await fetch("http://localhost:8080/auth/register",{
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({email, password})
-      });
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Register successful:');
-
-        localStorage.setItem('token', data.token);
-
-        navigate('/dashboard');
-      } else {
-        console.error('Login failed:', data.message);
-        alert(data.message);
-      }
+      const data = await register()
+      console.log(data)
+      navigate("/dashboard")
     }
     catch(error){
       console.error('Error logging in:', error);

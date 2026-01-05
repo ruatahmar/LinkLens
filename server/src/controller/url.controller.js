@@ -1,13 +1,13 @@
 import asyncHandler from "../util/asyncHandler.js";
 import { nanoid } from 'nanoid'
-import { url } from "../models/url.models.js"
+import { Url } from "../models/url.models.js"
 import apiError from "../util/apiError.js";
 import apiResponse from "../util/apiResponse.js";
-import { analytics } from "../models/analytics.models.js";
+import { Analytics } from "../models/analytics.models.js";
 
 const shortenUrl = asyncHandler(async (req, res, next) => {
     const { originalUrl, expiresAt } = req.body
-    const existing = await url.findOne({
+    const existing = await Url.findOne({
         userId: req.user._id,
         originalUrl: originalUrl
     })
@@ -16,13 +16,13 @@ const shortenUrl = asyncHandler(async (req, res, next) => {
     }
 
     const shortCode = nanoid(10)
-    const newEntry = await url.create({
+    const newEntry = await Url.create({
         userId: req.user._id,
         originalUrl,
         shortCode,
         expiresAt: expiresAt || null,
     });
-    const checkEntry = await url.findOne({
+    const checkEntry = await Url.findOne({
         userId: req.user._id,
         originalUrl: originalUrl
     })
@@ -48,7 +48,7 @@ const getStats = asyncHandler(async (req, res, next) => {
     //get user id from req.user
     const userId = req.user._id
     //find in analytics in db using both
-    const urlExist = await analytics.find({
+    const urlExist = await Analytics.find({
         urlId,
         userId
     })

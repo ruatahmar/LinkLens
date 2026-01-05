@@ -7,6 +7,7 @@ import urlRouter from "./routes/url.routes.js";
 import apiError from "./util/apiError.js";
 import redirect from "./controller/redirect.controller.js";
 import cors from "cors"
+import { getDashboardSummary } from "./controller/dashboard.controller.js";
 
 const port = process.env.port || 8000
 const app = express()
@@ -20,17 +21,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //routes
-app.use("/auth", authRouter)
-app.use("/url", urlRouter)
+app.use("/api/auth", authRouter)
+app.use("/api/url", urlRouter)
 
-app.post("/tokenTester", jwtAuth, (req, res) => {
+app.get("/api/dashboard/summary", jwtAuth, getDashboardSummary)
+app.post("/api/tokenTester", jwtAuth, (req, res) => {
     console.log(req.user)
     return res.json({
         message: "worked"
     })
 })
 
-app.get("/:shortCode", redirect)
+app.get("/api/:shortCode", redirect)
 
 
 

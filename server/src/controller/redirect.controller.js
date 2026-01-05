@@ -1,5 +1,5 @@
-import { analytics } from "../models/analytics.models.js";
-import { url } from "../models/url.models.js";
+import { Analytics } from "../models/analytics.models.js";
+import { Url } from "../models/url.models.js";
 import apiError from "../util/apiError.js";
 import apiResponse from "../util/apiResponse.js";
 import asyncHandler from "../util/asyncHandler.js";
@@ -7,7 +7,7 @@ import asyncHandler from "../util/asyncHandler.js";
 
 const redirect = asyncHandler(async (req, res, next) => {
     const { shortCode } = req.params
-    const urlExist = await url.findOne({
+    const urlExist = await Url.findOne({
         shortCode
     })
     if (!urlExist) {
@@ -18,7 +18,7 @@ const redirect = asyncHandler(async (req, res, next) => {
     const referrer = req.get("referer") || req.get("referrer") || null;
     const userAgent = req.get("User-Agent");
 
-    const newAnalytics = await analytics.create({
+    const newAnalytics = await Analytics.create({
         urlId: urlExist._id,
         userId: urlExist.userId,
         timestamp,

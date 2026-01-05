@@ -1,7 +1,7 @@
 import apiError from "../util/apiError.js";
 import apiResponse from "../util/apiResponse.js";
 import asyncHandler from "../util/asyncHandler.js";
-import { users } from "../models/users.models.js"
+import { User } from "../models/users.models.js"
 import { generateAccessToken, generateRefreshToken, verifyTokens } from "../util/token.js"
 import bcrypt from "bcryptjs";
 
@@ -19,12 +19,12 @@ const registerUser = asyncHandler(async (req, res) => {
     console.log("TYPE:", typeof req.body)
 
     const { email, password } = req.body
-    const existedUser = await users.findOne({ email })
+    const existedUser = await User.findOne({ email })
     if (existedUser) {
         throw new apiError(400, "User already signed up with this email")
     }
     const hashedPassword = bcrypt.hashSync(password)
-    const user = await users.create({
+    const user = await User.create({
         email,
         password: hashedPassword
     })
@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
         sameSite: "lax"
     }
 
-    const createdUser = await users.findById(user._id).select(
+    const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
     )
     if (!createdUser) {
@@ -68,7 +68,7 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new apiError(400, "Email not provided")
     }
     //check if email exist 
-    const user = await users.findOne({ email })
+    const user = await User.findOne({ email })
     if (!user) {
         throw new apiError(400, "User does not exist. Please register")
     }

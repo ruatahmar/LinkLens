@@ -28,4 +28,4 @@ const analyticsSchema = new Schema({
 
 })
 
-export const analytics = mongoose.model("analytics", analyticsSchema)
+export const Analytics = mongoose.model("Analytics", analyticsSchema)

@@ -2,7 +2,7 @@ import Links from "../components/myLinks.components"
 import NavBar from "../components/navbar.components"
 import ClicksChart from "../components/clickCharts.components"
 import RecentActivity from "../components/activities.components"
-
+// import { useEffect } from "react"
 export default function LinkAnalytics(){
 
     return (
