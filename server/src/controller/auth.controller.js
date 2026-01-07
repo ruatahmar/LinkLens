@@ -52,9 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
             new apiResponse(
                 200,
                 {
-                    user,
-                    accessToken,
-                    refreshToken
+                    user
                 },
                 "User account successfully created"
             )
@@ -95,9 +93,7 @@ const loginUser = asyncHandler(async (req, res) => {
             new apiResponse(
                 200,
                 {
-                    user,
-                    accessToken,
-                    refreshToken
+                    user
                 },
                 "Successfully logged in"
             )

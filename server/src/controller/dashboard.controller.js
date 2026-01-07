@@ -4,7 +4,7 @@ import apiResponse from "../util/apiResponse.js";
 import asyncHandler from "../util/asyncHandler.js"
 
 const getDashboardSummary = asyncHandler(async (req, res) => {
-    const userId = new mongoose.Types.ObjectId(req.user.userId);
+    const userId = new mongoose.Types.ObjectId(req.user._id);
     const totalLinks = await Url.countDocuments({ userId })
     const clicksAgg = await Url.aggregate([
         { $match: { userId } },

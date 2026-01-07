@@ -15,7 +15,7 @@ export default function Login() {
     e.preventDefault(); 
     try {
       const data = await login({email, password});
-      console.log(data)
+      console.log(data.data.message)
       navigate('/dashboard');
     } catch (error) {
       console.error('Error logging in:', error);

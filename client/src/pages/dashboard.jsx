@@ -2,8 +2,12 @@ import NavBar from "../components/navbar.components"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { dashboardSummary } from "../api/dashboard"
+import { shortenUrl } from "../api/url"
 export default function Dashboard(){
-    const [summary, setSummary] = useState(null)
+    const [summary, setSummary] = useState({
+        totalLinks: 0,
+        totalClicks: 0
+    });
     const [showForm, setShowForm] = useState(false)
     const [originalUrl, setOriginalUrl] = useState("")
 
@@ -12,13 +16,13 @@ export default function Dashboard(){
         const fetchSummary = async () => {
             try {
                 const res = await dashboardSummary();
-                console.log(res)
                 setSummary(res.data.data);
             } catch (err) {
                 alert("Failed to load dashboard",err);
+                console.log("error: ",err)
             }
             // finally {
-            //     setLoading(false);
+            //     setLoading(false);   
             // }
         };
 
@@ -26,28 +30,14 @@ export default function Dashboard(){
     }, []);
     const createNewLink = async ()=> {
         try{
-            const response = await fetch("http://localhost:8080/url/shorten",{
-                method:"POST",
-                credentials: "include",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify({originalUrl})
-            })
-            const data = await response.json()
-            if (!response.ok) {
-                alert(data.message);
-                return;
-            }
-            
-            console.log("Link Successfully Created")
-            navigate("/mylinks")
+            const response = await shortenUrl({originalUrl})
+            console.log("Link Successfully Created: ", response.data.message)
+            const shortUrl = response.data.data.shortCode
+            navigate(`/links/${shortUrl}`)
         }
-
-        
         catch(err){
+            alert(err.response.data.message)
             console.log("error: ",err)
-            alert("Error occured:",err)
         }
     }
     return(

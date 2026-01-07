@@ -41,7 +41,17 @@ const shortenUrl = asyncHandler(async (req, res, next) => {
     )
 
 })
+const getAllLinks = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const allLinks = await Url.find({ userId })
+    return res.status(200).json(
+        new apiResponse(
+            200,
+            allLinks,
+        )
+    )
 
+})
 const getStats = asyncHandler(async (req, res, next) => {
     //get id for the url from params
     const { urlId } = req.params
@@ -66,4 +76,4 @@ const getStats = asyncHandler(async (req, res, next) => {
     //returns
 })
 
-export { shortenUrl, getStats }
+export { shortenUrl, getStats, getAllLinks }

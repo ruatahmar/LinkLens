@@ -32,7 +32,7 @@ app.post("/api/tokenTester", jwtAuth, (req, res) => {
     })
 })
 
-app.get("/api/:shortCode", redirect)
+app.get("/:shortCode", redirect)
 
 
 
