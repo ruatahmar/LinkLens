@@ -6,18 +6,20 @@ import apiResponse from "../util/apiResponse.js";
 import { Analytics } from "../models/analytics.models.js";
 
 const shortenUrl = asyncHandler(async (req, res, next) => {
-    const { originalUrl, expiresAt } = req.body
+    const { linkName, originalUrl, expiresAt } = req.body
     const existing = await Url.findOne({
         userId: req.user._id,
-        originalUrl: originalUrl
+        originalUrl,
+        linkName
     })
     if (existing) {
-        throw new apiError(403, "Url already shortened.")
+        throw new apiError(403, "Links need to be unique")
     }
 
     const shortCode = nanoid(10)
     const newEntry = await Url.create({
         userId: req.user._id,
+        linkName,
         originalUrl,
         shortCode,
         expiresAt: expiresAt || null,
@@ -43,7 +45,7 @@ const shortenUrl = asyncHandler(async (req, res, next) => {
 })
 const getAllLinks = asyncHandler(async (req, res) => {
     const userId = req.user._id;
-    const allLinks = await Url.find({ userId })
+    const allLinks = await Url.find({ userId }).sort({ createdAt: 1 })
     return res.status(200).json(
         new apiResponse(
             200,

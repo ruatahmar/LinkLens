@@ -6,6 +6,11 @@ const urlSchema = new Schema({
         ref: "users",
         required: true
     },
+    linkName: {
+        type: String,
+        required: true,
+        unique: true
+    },
     originalUrl: {
         type: String,
         required: true

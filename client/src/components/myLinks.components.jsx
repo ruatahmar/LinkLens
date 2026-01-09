@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
-export default function Links({ linkName, linkUrl }){
+export default function Links({ linkName, linkUrl}){
     const navigate = useNavigate()
     function handleClick(){
         navigate(`/links/${linkName}`)

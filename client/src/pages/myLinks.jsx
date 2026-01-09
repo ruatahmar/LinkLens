@@ -25,7 +25,7 @@ export default function MyLinks(){
     const linksToDisplay = links.map((link) =>  {
         return <Links 
             key={link._id}
-            linkName = {link.shortCode}
+            linkName = {link.linkName}
             linkUrl = {link.originalUrl}
         />
     })

@@ -8,6 +8,7 @@ export default function Dashboard(){
         totalLinks: 0,
         totalClicks: 0
     });
+    const [linkName, setLinkName] = useState("")
     const [showForm, setShowForm] = useState(false)
     const [originalUrl, setOriginalUrl] = useState("")
 
@@ -30,7 +31,7 @@ export default function Dashboard(){
     }, []);
     const createNewLink = async ()=> {
         try{
-            const response = await shortenUrl({originalUrl})
+            const response = await shortenUrl({linkName,originalUrl})
             console.log("Link Successfully Created: ", response.data.message)
             const shortUrl = response.data.data.shortCode
             navigate(`/links/${shortUrl}`)
@@ -74,7 +75,14 @@ export default function Dashboard(){
             <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
                 <div className="bg-white p-6 rounded-lg w-96">
                     <h2 className="text-2xl font-bold mb-4">Create New Link</h2>
-
+                    <input
+                        type="text"
+                        name="linkName"
+                        value={linkName}
+                        onChange={(e)=>setLinkName(e.target.value)}
+                        placeholder="Link Name"
+                        className="w-full border p-2 mb-3 rounded"
+                    />
                     <input
                         type="text"
                         name="originalUrl"
