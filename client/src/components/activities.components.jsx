@@ -17,6 +17,36 @@ const activities = [
         referrer: "linkedin.com",
         agent: "Firefox · Linux",
     },
+    {
+        time: "2025-01-12 12:01",
+        location: "Germany",
+        referrer: "linkedin.com",
+        agent: "Firefox · Linux",
+    },
+    {
+        time: "2025-01-12 12:01",
+        location: "Germany",
+        referrer: "linkedin.com",
+        agent: "Firefox · Linux",
+    },
+    {
+        time: "2025-01-12 12:01",
+        location: "Germany",
+        referrer: "linkedin.com",
+        agent: "Firefox · Linux",
+    },
+    {
+        time: "2025-01-12 12:01",
+        location: "Germany",
+        referrer: "linkedin.com",
+        agent: "Firefox · Linux",
+    },
+    {
+        time: "2025-01-12 12:01",
+        location: "Germany",
+        referrer: "linkedin.com",
+        agent: "Firefox · Linux",
+    },
 ];
 
 export default function RecentActivity() {

@@ -68,7 +68,6 @@ const getStats = asyncHandler(async (req, res, next) => {
         urlId,
         userId
     })
-    console.log(urlExist)
     //check if it exists 
     if (!urlExist) {
         throw new apiError(404, "Url does not exist")
@@ -103,13 +102,19 @@ const getLink = asyncHandler(async (req, res) => {
 const deleteLink = asyncHandler(async (req, res,) => {
     const userId = req.user._id
     const { shortCode } = req.params
-    const url = await Url.deleteOne({
+    const url = await Url.findOneAndDelete({
         userId,
         shortCode
     })
     if (!url) {
         throw new apiError(404, "Link does not exist")
     }
+    const analysis = await Analytics.deleteMany({
+        userId,
+        urlId: url._id
+
+    })
+    console.log(analysis)
     return res.status(200).json(
         new apiResponse(
             200,

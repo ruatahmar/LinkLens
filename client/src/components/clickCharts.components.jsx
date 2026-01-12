@@ -16,6 +16,10 @@ const data = [
   { date: "Jan 5", clicks: 30 },
   { date: "Jan 6", clicks: 22 },
   { date: "Jan 7", clicks: 40 },
+  { date: "Jan 1", clicks: 12 },
+  { date: "Jan 2", clicks: 18 },
+  { date: "Jan 3", clicks: 9 },
+  
 ];
 
 export default function ClicksChart() {

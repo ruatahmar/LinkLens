@@ -27,9 +27,7 @@ const redirect = asyncHandler(async (req, res, next) => {
         userAgent
     })
 
-    console.log(newAnalytics)
     urlExist.clickCount += 1
-    console.log(urlExist)
     await urlExist.save();
 
     return res.redirect(urlExist.originalUrl)
