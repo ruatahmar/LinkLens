@@ -5,6 +5,12 @@ import { User } from "../models/users.models.js"
 import { generateAccessToken, generateRefreshToken, verifyTokens } from "../util/token.js"
 import bcrypt from "bcryptjs";
 
+const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax"
+}
+
 const generateTokens = async (userID) => {
 
     const data = { _id: userID }
@@ -82,11 +88,7 @@ const loginUser = asyncHandler(async (req, res) => {
     await user.save({ validateBeforeSave: false })
 
     //return both tokens in cookies 
-    const options = {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax"
-    }
+
     return res.status(200).cookie("refreshToken", refreshToken, options)
         .cookie("accessToken", accessToken, options)
         .json(
@@ -100,6 +102,24 @@ const loginUser = asyncHandler(async (req, res) => {
         )
 })
 
-const logoutUser = asyncHandler()
+const logoutUser = asyncHandler(async (req, res) => {
+    const userId = req.user._id
+    const user = await User.findById(userId)
+    if (!user) {
+        throw new apiError(404, "User not found")
+    }
+    user.refreshToken = null
+    await user.save()
+    return res.status(200)
+        .clearCookie("refreshToken", options)
+        .clearCookie("accessToken", options)
+        .json(
+            new apiResponse(
+                200,
+                {},
+                "Logged Out"
+            )
+        )
+})
 
 export { registerUser, loginUser, logoutUser }

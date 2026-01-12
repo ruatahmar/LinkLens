@@ -62,6 +62,9 @@ const getStats = asyncHandler(async (req, res, next) => {
         shortCode,
         userId
     })
+    if (!url) {
+        throw new apiError(404, "Url does not exist")
+    }
     const urlId = new mongoose.Types.ObjectId(url._id);
     //find in analytics in db using both
     const urlExist = await Analytics.find({
@@ -70,7 +73,7 @@ const getStats = asyncHandler(async (req, res, next) => {
     })
     //check if it exists 
     if (!urlExist) {
-        throw new apiError(404, "Url does not exist")
+        throw new apiError(404, "No analytics available")
     }
     return res.status(200).json(
         new apiResponse(
