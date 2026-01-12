@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom"
 
-export default function Links({ linkName, linkUrl}){
+export default function Links({ linkName, linkUrl, shortCode}){
     const navigate = useNavigate()
     function handleClick(){
-        navigate(`/links/${linkName}`)
+        navigate(`/links/${shortCode}`)
     }
     return(
         <>

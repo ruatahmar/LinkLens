@@ -1,8 +1,9 @@
 import asyncHandler from "../util/asyncHandler.js";
-import { nanoid } from 'nanoid'
-import { Url } from "../models/url.models.js"
 import apiError from "../util/apiError.js";
 import apiResponse from "../util/apiResponse.js";
+import mongoose from "mongoose";
+import { nanoid } from 'nanoid'
+import { Url } from "../models/url.models.js"
 import { Analytics } from "../models/analytics.models.js";
 
 const shortenUrl = asyncHandler(async (req, res, next) => {
@@ -55,15 +56,19 @@ const getAllLinks = asyncHandler(async (req, res) => {
 
 })
 const getStats = asyncHandler(async (req, res, next) => {
-    //get id for the url from params
-    const { urlId } = req.params
-    //get user id from req.user
     const userId = req.user._id
+    const { shortCode } = req.params
+    const url = await Url.findOne({
+        shortCode,
+        userId
+    })
+    const urlId = new mongoose.Types.ObjectId(url._id);
     //find in analytics in db using both
     const urlExist = await Analytics.find({
         urlId,
         userId
     })
+    console.log(urlExist)
     //check if it exists 
     if (!urlExist) {
         throw new apiError(404, "Url does not exist")
@@ -77,5 +82,40 @@ const getStats = asyncHandler(async (req, res, next) => {
     )
     //returns
 })
-
-export { shortenUrl, getStats, getAllLinks }
+const getLink = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const { shortCode } = req.params
+    const url = await Url.findOne({
+        userId,
+        shortCode
+    })
+    if (!url) {
+        throw new apiError(404, "Link does not exist")
+    }
+    return res.status(200).json(
+        new apiResponse(
+            200,
+            url,
+            "Link Fetched"
+        )
+    )
+})
+const deleteLink = asyncHandler(async (req, res,) => {
+    const userId = req.user._id
+    const { shortCode } = req.params
+    const url = await Url.deleteOne({
+        userId,
+        shortCode
+    })
+    if (!url) {
+        throw new apiError(404, "Link does not exist")
+    }
+    return res.status(200).json(
+        new apiResponse(
+            200,
+            {},
+            "Link Deleted"
+        )
+    )
+})
+export { shortenUrl, getStats, getAllLinks, getLink, deleteLink }

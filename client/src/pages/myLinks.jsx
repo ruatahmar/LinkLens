@@ -1,11 +1,12 @@
 import NavBar from "../components/navbar.components"
 import Links from "../components/myLinks.components"
 import { getAllLinks } from "../api/url"
-import { useEffect } from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 
 
 export default function MyLinks(){
+    const { shortCode } = useParams();
     const [links, setLinks] = useState([])
     useEffect(() => {
         const fetchAllLinks = async() => {
@@ -27,6 +28,7 @@ export default function MyLinks(){
             key={link._id}
             linkName = {link.linkName}
             linkUrl = {link.originalUrl}
+            shortCode = {link.shortCode}
         />
     })
     return (

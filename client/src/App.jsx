@@ -15,7 +15,7 @@ function App() {
           <Route path="/register" element={<Register/>} />
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/links" element={<MyLinks/>}/>
-          <Route path="/mylinks" element={<LinkAnalytics/>}/>
+          <Route path="/links/:shortCode" element={<LinkAnalytics/>}/>
         </Routes>
       </BrowserRouter>
     </>
