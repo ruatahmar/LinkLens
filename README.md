@@ -4,14 +4,15 @@ A backend-heavy URL shortener & analytics platform built to showcase strong syst
 
 ## Why LinkLens?
 
-Most URL shorteners stop at generating short links. **LinkLens** was built to explore and demonstrate real-world backend engineering concepts such as:
+The original idea came from a simple, real-world curiosity: wanting to know whether my friends actually open and check the links shared in group chats.
 
-* Secure authentication using JWT access & refresh tokens
-* Designing scalable redirect flows
-* Tracking and aggregating analytics data efficiently
-* Enforcing link-level permissions and constraints
+From that starting point, LinkLens evolved into a deliberate backend-focused project built to explore and demonstrate real-world engineering concepts such as:
 
-This project focuses on **clean API design, correctness, and backend depth**, rather than frontend complexity.
+- Secure authentication using JWT access & refresh tokens
+- Designing scalable redirect flows
+- Tracking and aggregating analytics data efficiently
+
+This project focuses on clean API design, correctness, and backend depth, rather than frontend complexity.
 
 ---
 
