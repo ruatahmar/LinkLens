@@ -85,8 +85,8 @@ All endpoints are documented using **Postman**, including:
 * Redirect behavior
 * Analytics retrieval
 
-🔗 **Postman Collection:**
-*[https://.postman.co/workspace/My-Workspace~44ddd2e2-a8be-4bc1-87b5-22e90d5cea68/collection/40210596-45a3aaf1-9066-4fac-9040-b0c5488b4c51?action=share&creator=40210596](https://.postman.co/workspace/My-Workspace~44ddd2e2-a8be-4bc1-87b5-22e90d5cea68/collection/40210596-45a3aaf1-9066-4fac-9040-b0c5488b4c51?action=share&creator=40210596)*
+**Postman Collection:**
+*[[POSTMAN LINK)](https://www.postman.com/payload-specialist-54019853/workspace/public-workspace/environment/40210596-b4473656-15c7-4e84-8594-2975d049dd15?action=share&creator=40210596&active-environment=40210596-b4473656-15c7-4e84-8594-2975d049dd15)*
 
 ---
 
