@@ -58,34 +58,49 @@ const getAllLinks = asyncHandler(async (req, res) => {
 const getStats = asyncHandler(async (req, res, next) => {
     const userId = req.user._id
     const { shortCode } = req.params
-    const url = await Url.findOne({
-        shortCode,
-        userId
-    })
+
+    let page = parseInt(req.query.page) || 1
+    let limit = parseInt(req.query.limit) || 10
+
+    page = Math.max(page, 1);
+    limit = Math.min(Math.max(limit, 1), 50);
+
+    const skip = (page - 1) * limit;
+
+    const url = await Url.findOne({ shortCode, userId })
     if (!url) {
         throw new apiError(404, "Url does not exist")
     }
+
     const urlId = new mongoose.Types.ObjectId(url._id);
-    //find in analytics in db using both
-    const urlExist = await Analytics.find({
-        urlId,
-        userId
-    })
-    //check if it exists 
-    if (!urlExist) {
-        throw new apiError(404, "No analytics available")
-    }
+
+    const analytics = await Analytics.find({ urlId, userId })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+
+    const total = await Analytics.countDocuments({ urlId, userId })
+
     return res.status(200).json(
         new apiResponse(
             200,
-            urlExist,
+            {
+                data: analytics,
+                pagination: {
+                    totalItems: total,
+                    currentPage: page,
+                    totalPages: Math.ceil(total / limit),
+                    limit,
+                }
+            },
             "Fetch successful"
         )
+
     )
-    //returns
 })
 const getLink = asyncHandler(async (req, res) => {
     const userId = req.user._id;
+
     const { shortCode } = req.params
     const url = await Url.findOne({
         userId,
