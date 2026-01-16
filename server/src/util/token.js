@@ -29,21 +29,26 @@ const generateRefreshToken = (data) => {
     )
 }
 
-const refreshAccessToken = asyncHandler()
-
 const Mode = {
     refresh: refreshTokenSecret,
     access: accessTokenSecret,
 };
 const verifyTokens = (token, mode) => {
-    if (!Object.keys(Mode).includes(mode)) {
+    const secret = Mode[mode]
+    if (!secret) {
         throw new apiError(400, "Token type incorrect check again")
     }
-    const secret = Mode[mode]
-    return jwt.verify(
-        token,
-        secret
-    )
+
+    try {
+        return jwt.verify(token, secret)
+    } catch (err) {
+        if (err.name === "TokenExpiredError") {
+            throw new apiError(401, "Token expired")
+        }
+        throw new apiError(401, "Invalid token")
+
+    }
+
 }
 
 export { generateAccessToken, generateRefreshToken, verifyTokens } 

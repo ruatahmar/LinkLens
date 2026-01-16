@@ -122,4 +122,28 @@ const logoutUser = asyncHandler(async (req, res) => {
         )
 })
 
-export { registerUser, loginUser, logoutUser }
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    const refreshToken = req.cookies.refreshToken
+    if (!refreshToken) {
+        throw new apiError(401, "Refresh token missing")
+    }
+    const payload = verifyTokens(refreshToken, "refresh")
+    const userId = payload._id
+    const user = await User.findById(userId)
+    if (!user) {
+        throw new apiError(401, "User not found")
+    }
+    if (refreshToken !== user.refreshToken) {
+        throw new apiError(400, "Invalid refresh token")
+    }
+
+    const newAccessToken = generateAccessToken({ _id: userId })
+
+    return res.status(200).cookie("accessToken", newAccessToken, options)
+        .json(
+            new apiResponse(200, {}, "Access Token refreshed")
+        )
+
+})
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken }
