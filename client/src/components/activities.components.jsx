@@ -1,55 +1,33 @@
-const activities = [
-    {
-        time: "2025-01-12 14:32",
-        location: "India",
-        referrer: "twitter.com",
-        agent: "Chrome · Windows",
-    },
-    {
-        time: "2025-01-12 13:10",
-        location: "USA",
-        referrer: "direct",
-        agent: "Safari · iOS",
-    },
-    {
-        time: "2025-01-12 12:01",
-        location: "Germany",
-        referrer: "linkedin.com",
-        agent: "Firefox · Linux",
-    },
-    {
-        time: "2025-01-12 12:01",
-        location: "Germany",
-        referrer: "linkedin.com",
-        agent: "Firefox · Linux",
-    },
-    {
-        time: "2025-01-12 12:01",
-        location: "Germany",
-        referrer: "linkedin.com",
-        agent: "Firefox · Linux",
-    },
-    {
-        time: "2025-01-12 12:01",
-        location: "Germany",
-        referrer: "linkedin.com",
-        agent: "Firefox · Linux",
-    },
-    {
-        time: "2025-01-12 12:01",
-        location: "Germany",
-        referrer: "linkedin.com",
-        agent: "Firefox · Linux",
-    },
-    {
-        time: "2025-01-12 12:01",
-        location: "Germany",
-        referrer: "linkedin.com",
-        agent: "Firefox · Linux",
-    },
-];
+import { formatAnalyticsTable } from "../utils/analyticsFormatter";
+// const activities = [
+//     {
+//         time: "2025-01-12 14:32",
+//         location: "India",
+//         referrer: "twitter.com",
+//         agent: "Chrome · Windows",
+//     },
+//     {
+//         time: "2025-01-12 13:10",
+//         location: "USA",
+//         referrer: "direct",
+//         agent: "Safari · iOS",
+//     },
+//     {
+//         time: "2025-01-12 12:01",
+//         location: "Germany",
+//         referrer: "linkedin.com",
+//         agent: "Firefox · Linux",
+//     },
+//     {
+//         time: "2025-01-12 12:01",
+//         location: "Germany",
+//         referrer: "linkedin.com",
+//         agent: "Firefox · Linux",
+//     }
+// ];
 
-export default function RecentActivity() {
+export default function RecentActivity(analytics) {
+    const activities = formatAnalyticsTable(analytics)
     return (
         <div className="mt-10 bg-white border rounded-xl">
 

@@ -10,6 +10,7 @@ export default function LinkAnalytics(){
     const { shortCode } = useParams();
     const [stats, setStats] = useState({})
     const [link, setLink] = useState({})
+    const [page, setPage] =useState(1);
 
     const navigate = useNavigate()
 
@@ -22,7 +23,7 @@ export default function LinkAnalytics(){
     }
     useEffect(()=>{
         const getAllStats = async() =>{
-            const res = await getStats(shortCode)
+            const res = await getStats(shortCode, page)
             setStats(res.data.data)
             
         }

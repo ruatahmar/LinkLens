@@ -19,6 +19,14 @@ const analyticsSchema = new Schema({
     ipAddress: {
         type: String
     },
+    continent: {
+        type: String,
+        default: "",
+    },
+    country: {
+        type: String,
+        default: "Unknown",
+    },
     referrer: {
         type: String
     },

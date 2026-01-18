@@ -3,7 +3,7 @@ import { Url } from "../models/url.models.js";
 import apiError from "../util/apiError.js";
 import apiResponse from "../util/apiResponse.js";
 import asyncHandler from "../util/asyncHandler.js";
-
+import getLocationFromIp from "../util/ipInfoApi.js";
 
 const redirect = asyncHandler(async (req, res, next) => {
     const { shortCode } = req.params
@@ -17,16 +17,19 @@ const redirect = asyncHandler(async (req, res, next) => {
     const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const referrer = req.get("referer") || req.get("referrer") || null;
     const userAgent = req.get("User-Agent");
+    const { continent, country } = await getLocationFromIp(ipAddress)
 
     const newAnalytics = await Analytics.create({
         urlId: urlExist._id,
         userId: urlExist.userId,
         timestamp,
+        continent,
+        country,
         ipAddress,
         referrer,
         userAgent
     })
-
+    console.log(newAnalytics)
     urlExist.clickCount += 1
     await urlExist.save();
 

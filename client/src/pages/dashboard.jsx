@@ -21,6 +21,7 @@ export default function Dashboard(){
             } catch (err) {
                 alert("Failed to load dashboard",err);
                 console.log("error: ",err)
+                navigate("/login")
             }
             // finally {
             //     setLoading(false);   
