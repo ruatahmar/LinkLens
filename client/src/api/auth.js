@@ -1,5 +1,6 @@
-import api from "../utils/apiClients"
+import api, { publicApi } from "../utils/apiClients"
 
 export const register = (data) => api.post("/auth/register", data);
 export const login = (data) => api.post("/auth/login", data);
-export const logout = () => api.post("auth/logout")
+export const logout = () => api.post("/auth/logout")
+export const refreshToken = () => publicApi.post("/auth/refresh")

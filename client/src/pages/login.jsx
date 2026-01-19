@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import { login } from '../api/auth'
+import { AuthContext } from "../auth/authContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const {setUser} = useContext(AuthContext)
   const handleRedirect = () => {
     navigate('/register'); 
   };
@@ -15,6 +16,7 @@ export default function Login() {
     e.preventDefault(); 
     try {
       const data = await login({email, password});
+      setUser(data.data.data.user)
       console.log(data.data.message)
       navigate('/dashboard');
     } catch (error) {

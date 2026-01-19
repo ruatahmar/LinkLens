@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import { logout } from '../api/auth';
+import { AuthContext } from '../auth/authContext';
 
 export default function NavBar(){
+    const {setUser} = useContext(AuthContext)
     const navigate = useNavigate()
     function redirectDashboard(){
         navigate('/dashboard')
@@ -10,7 +13,9 @@ export default function NavBar(){
         navigate("/links")
     }
     async function handlleLogout(){
+        
         await logout()
+        setUser(null)
         navigate("/login")
     }
     return(

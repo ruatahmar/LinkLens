@@ -4,6 +4,11 @@ const api = axios.create({
     baseURL: "http://localhost:8080/api/",
     withCredentials: true
 });
+export const publicApi = axios.create({
+    baseURL: "http://localhost:8080/api",
+    withCredentials: true,
+})
+
 
 let isRefreshing = false;
 let failedQueue = [];

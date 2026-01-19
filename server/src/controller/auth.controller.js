@@ -141,7 +141,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     return res.status(200).cookie("accessToken", newAccessToken, options)
         .json(
-            new apiResponse(200, {}, "Access Token refreshed")
+            new apiResponse(200, { user }, "Access Token refreshed")
         )
 
 })

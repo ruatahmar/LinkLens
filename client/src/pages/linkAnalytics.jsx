@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 // import { useEffect } from "react"
 export default function LinkAnalytics(){
     const { shortCode } = useParams();
-    const [stats, setStats] = useState({})
+    const [stats, setStats] = useState([])
     const [link, setLink] = useState({})
     const [page, setPage] =useState(1);
 
@@ -92,9 +92,9 @@ export default function LinkAnalytics(){
                         
                     </div>
                     {/*Chart */}
-                    <ClicksChart />
+                    <ClicksChart analytics={stats}/>
                     {/* Recent Activities */}
-                    <RecentActivity />
+                    <RecentActivity analytics={stats}/>
                 </div>
             </div>
     )
