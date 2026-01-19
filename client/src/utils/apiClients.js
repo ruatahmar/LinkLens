@@ -33,6 +33,7 @@ api.interceptors.response.use(
 
             try {
                 await api.post("/auth/refresh");
+                console.log("entered")
                 processQueue(null);
                 return api(originalRequest);
             } catch (err) {
