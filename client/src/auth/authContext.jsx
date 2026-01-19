@@ -14,9 +14,8 @@ export function AuthProvider({ children }) {
     const initAuth = async () => {
       try {
         const res = await refreshToken()
-        console.log(res.data.data.user)
         setUser(res.data.data.user) // backend should send user data
-      } catch (err) {
+      } catch{
         setUser(null)
       } finally {
         setLoading(false)

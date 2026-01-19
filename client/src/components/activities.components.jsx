@@ -26,7 +26,7 @@ import { formatAnalyticsTable } from "../utils/analyticsFormatter";
 //     }
 // ];
 
-export default function RecentActivity(analytics) {
+export default function RecentActivity({analytics}) {
     const activities = formatAnalyticsTable(analytics)
     return (
         <div className="mt-10 bg-white border rounded-xl">

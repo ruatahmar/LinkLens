@@ -7,22 +7,12 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { formatClicksByDate } from "../utils/analyticsFormatter";
 
-const data = [
-  { date: "Jan 1", clicks: 12 },
-  { date: "Jan 2", clicks: 18 },
-  { date: "Jan 3", clicks: 9 },
-  { date: "Jan 4", clicks: 25 },
-  { date: "Jan 5", clicks: 30 },
-  { date: "Jan 6", clicks: 22 },
-  { date: "Jan 7", clicks: 40 },
-  { date: "Jan 1", clicks: 12 },
-  { date: "Jan 2", clicks: 18 },
-  { date: "Jan 3", clicks: 9 },
-  
-];
 
-export default function ClicksChart() {
+
+export default function ClicksChart({analytics}) {
+  const data = formatClicksByDate(analytics)
   return (
     <div className="bg-white border rounded-xl p-6 h-80">
       <h2 className="text-xl font-semibold mb-4">

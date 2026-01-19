@@ -24,7 +24,7 @@ export default function LinkAnalytics(){
     useEffect(()=>{
         const getAllStats = async() =>{
             const res = await getStats(shortCode, page)
-            setStats(res.data.data)
+            setStats(res.data.data.data)
             
         }
         const getLinkDetails = async() => {
