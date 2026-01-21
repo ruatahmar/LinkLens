@@ -75,7 +75,7 @@ const getStats = asyncHandler(async (req, res, next) => {
     const urlId = new mongoose.Types.ObjectId(url._id);
 
     const analytics = await Analytics.find({ urlId, userId })
-        .sort({ createdAt: -1 })
+        .sort({ createdAt: 1 })
         .skip(skip)
         .limit(limit);
 

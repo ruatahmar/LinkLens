@@ -20,59 +20,58 @@ This project focuses on clean API design, correctness, and backend depth, rather
 
 ### URL Management
 
-* Shorten URLs using auto-generated 
+- Shorten URLs using auto-generated
 
 ### Authentication & Authorization
 
-* JWT-based authentication
-* Short-lived access tokens
-* Refresh token flow for session continuity
-* Route protection and ownership checks
+- JWT-based authentication
+- Short-lived access tokens
+- Refresh token flow for session continuity
+- Route protection and ownership checks
 
 ### Analytics & Tracking
 
-* Track every redirect with:
+- Track every redirect with:
+  - Timestamp
+  - IP address
+  - User agent
+  - Referrer
 
-  * Timestamp
-  * IP address
-  * User agent
-  * Referrer
-* Per-link analytics retrieval for dashboards
-
-  * Total clicks
-  * Unique visitors
-  * Time-based click trends
+- Per-link analytics retrieval for dashboards
+  - Total clicks
+  - Unique visitors
+  - Time-based click trends
 
 ## Tech Stack
 
 ### Backend
 
-* **Node.js**
-* **Express.js**
-* **MongoDB** with Mongoose
-* **JWT** for authentication
+- **Node.js**
+- **Express.js**
+- **MongoDB** with Mongoose
+- **JWT** for authentication
 
 ## Frontend 
 
-* Minimal frontend (dashboard & auth)
+- Minimal frontend (dashboard & auth)
 
-* Backend-first design philosophy
+- Backend-first design philosophy
 
 ## Tooling
 
-* **Postman** for API testing and documentation
+- **Postman** for API testing and documentation
 
-* **Redis** (optional / planned) for caching analytics summaries
+- **Redis** (optional / planned) for caching analytics summaries
 
 ## Architecture
 
 1. Client sends authenticated requests using JWT access tokens
 2. Protected routes validate authentication and resource ownership
 3. Redirect flow:
+   - Log analytics data
+   - Increment counters
+   - Redirect to original URL
 
-   * Log analytics data
-   * Increment counters
-   * Redirect to original URL
 4. Analytics data is aggregated and exposed via dedicated endpoints
 
 ---
@@ -81,13 +80,13 @@ This project focuses on clean API design, correctness, and backend depth, rather
 
 All endpoints are documented using **Postman**, including:
 
-* Authentication flows
-* URL creation and management
-* Redirect behavior
-* Analytics retrieval
+- Authentication flows
+- URL creation and management
+- Redirect behavior
+- Analytics retrieval
 
 **Postman Collection:**
-*[[POSTMAN LINK)](https://www.postman.com/payload-specialist-54019853/workspace/public-workspace/environment/40210596-b4473656-15c7-4e84-8594-2975d049dd15?action=share&creator=40210596&active-environment=40210596-b4473656-15c7-4e84-8594-2975d049dd15)*
+_[[POSTMAN LINK)](https://www.postman.com/payload-specialist-54019853/workspace/public-workspace/environment/40210596-b4473656-15c7-4e84-8594-2975d049dd15?action=share&creator=40210596&active-environment=40210596-b4473656-15c7-4e84-8594-2975d049dd15)_
 
 ---
 
@@ -117,8 +116,8 @@ GET /:slug
 
 ### Prerequisites
 
-* Node.js
-* MongoDB
+- Node.js
+- MongoDB
 
 ### Steps
 
@@ -159,17 +158,17 @@ GET /:slug
 
 ## Security Considerations
 
-* Access tokens are short-lived to reduce attack surface
-* Refresh tokens are used to re-issue access tokens securely
-* Protected routes require authentication
-* Link modification and analytics access are restricted to owners
+- Access tokens are short-lived to reduce attack surface
+- Refresh tokens are used to re-issue access tokens securely
+- Protected routes require authentication
+- Link modification and analytics access are restricted to owners
 
 ---
 
-## Future Improvements
+## Future Improvements/Limitations
 
-* Redis caching for high-traffic redirects
+- Redis caching for high-traffic redirects
 
-* Rate limiting per IP or per user
+- Rate limiting per IP or per user
 
-* Geo-location based analytics
+- IpInfo API free tier does not consistently return location

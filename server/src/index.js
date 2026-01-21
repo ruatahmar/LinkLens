@@ -37,7 +37,7 @@ app.get("/:shortCode", redirect)
 
 
 
-
+app.set("trust proxy", true)
 //global error handler
 app.use((err, req, res, next) => {
     console.error(err);

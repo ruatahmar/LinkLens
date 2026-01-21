@@ -24,6 +24,14 @@ const urlSchema = new Schema({
         type: Number,
         default: 0
     },
+    uniqueClicks: {
+        type: Number,
+        default: 0
+    },
+    clicksToday: {
+        type: Number,
+        default: 0
+    },
     isActive: {
         type: Boolean,
         default: true
