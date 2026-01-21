@@ -11,9 +11,15 @@ export default function LinkAnalytics(){
     const [stats, setStats] = useState([])
     const [link, setLink] = useState({})
     const [page, setPage] =useState(1);
-
+    const [totalPages, setTotalPages] = useState(1)
     const navigate = useNavigate()
-
+    const changePage = (direction) =>{
+        setPage(prev => {
+            if (direction=="prev" && prev>1) return prev-1
+            if (direction=="next" && prev<totalPages) return prev+1
+            return prev
+        })
+    }
     const handleDeleteLink = async() =>{
         const res = await deleteLink(shortCode)
         if(!res){
@@ -30,11 +36,6 @@ export default function LinkAnalytics(){
         }
     }
     useEffect(()=>{
-        const getAllStats = async() =>{
-            const res = await getStats(shortCode, page)
-            setStats(res.data.data.data)
-            
-        }
         const getLinkDetails = async() => {
             const res = await getLink(shortCode)
             console.log(res.data.data)
@@ -42,9 +43,17 @@ export default function LinkAnalytics(){
         }
 
         getLinkDetails()
+    }, [shortCode])
+    useEffect(()=>{
+        const getAllStats = async() =>{
+            const res = await getStats(shortCode, page)
+            setStats(res.data.data.data)
+            setTotalPages(res.data.data.pagination.totalPages)
+            
+        }
         getAllStats()
         
-    }, [])
+    }, [page, shortCode])
     return (
             <div className="flex h-screen w-screen overflow-hidden bg-[#F2F3F2]">
                 <NavBar/>
@@ -73,8 +82,7 @@ export default function LinkAnalytics(){
                             <button onClick={handleCopy} className="px-4 py-2 rounded-lg border hover:bg-green-400 hover:text-white transition">
                             Copy Link
                             </button>
-                            <button onClick={handleDeleteLink} className="px-4 py-2 rounded-lg bg-[#69968F] text-white hover:bg-red-400 transition
-                            ">
+                            <button onClick={handleDeleteLink} className="px-4 py-2 rounded-lg bg-[#69968F] text-white hover:bg-red-400 transition">
                             Delete
                             </button>
                         </div>
@@ -84,13 +92,13 @@ export default function LinkAnalytics(){
                             <h3 className="text-2xl">Total Clicks</h3>
                             <h1 className="font-bold text-5xl mt-3">{link.clickCount}</h1>
                         </div>
-                        <div className="m-8 p-8 h-40 w-51 border border-black flex flex-col rounded-lg">
-                            <h3 className="text-2xl">Unique Links</h3>
-                            <h1 className="font-bold text-5xl mt-3">100</h1>
+                        <div className="m-8 p-8 h-40 w-52 border border-black flex flex-col rounded-lg">
+                            <h3 className="text-2xl">Unique Clicks</h3>
+                            <h1 className="font-bold text-5xl mt-3">{link.uniqueClicks}</h1>
                         </div>
                         <div className="m-8 p-8 h-40 w-50 border border-black flex flex-col rounded-lg">
                             <h3 className="text-2xl">Clicks Today</h3>
-                            <h1 className="font-bold text-5xl mt-3">100</h1>
+                            <h1 className="font-bold text-5xl mt-3">{link.clicksToday}</h1>
                         </div>
                         <div className="m-8 p-8 h-40 w-50 border border-black flex flex-col rounded-lg">
                             <h3 className="text-2xl">Status</h3>
@@ -103,6 +111,15 @@ export default function LinkAnalytics(){
                     <ClicksChart analytics={stats}/>
                     {/* Recent Activities */}
                     <RecentActivity analytics={stats}/>
+                    <div className="flex flex-row justify-end ">
+                        {page>1 &&
+                        <button onClick={() => changePage("prev")} className="px-4 py-2 my-2 mx-2 rounded-lg bg-[#69968F] text-white hover:bg-white hover:text-black hover:border transition">
+                            Previous
+                        </button>}
+                        <button onClick={() => changePage("next")} className="px-4 py-2 my-2 mx-2 rounded-lg bg-[#69968F] text-white hover:bg-white hover:text-black hover:border transition">
+                            Next
+                        </button>
+                    </div>
                 </div>
             </div>
     )

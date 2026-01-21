@@ -31,18 +31,6 @@ const urlSchema = new Schema({
     clicksToday: {
         type: Number,
         default: 0
-    },
-    isActive: {
-        type: Boolean,
-        default: true
-    },
-    expiresAt: {
-        type: Date,
-        default: null
-    },
-    password: {
-        type: String,
-        default: null
     }
 }, { Timestamp: true })
 

@@ -3,7 +3,6 @@ import { Url } from "../src/models/url.models.js";
 
 async function updateNewField() {
     const mongoUrl = process.env.MONGO_URL
-    console.log(mongoUrl)
     const dbName = "BRUH"
     try {
         await mongoose.connect(`${mongoUrl}${dbName}`);
