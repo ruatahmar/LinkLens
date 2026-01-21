@@ -30,7 +30,18 @@ const redirect = asyncHandler(async (req, res, next) => {
         userAgent
     })
     console.log(newAnalytics)
+
+    //updating Url model
     urlExist.clickCount += 1
+    urlExist.clicksToday += 1
+    const alreadyClicked = await Analytics.exists({
+        urlId: urlExist._id,
+        ipAddress
+    })
+    if (!alreadyClicked) {
+        urlExist.uniqueClicks += 1
+    }
+    console.log(urlExist)
     await urlExist.save();
 
     return res.redirect(urlExist.originalUrl)
