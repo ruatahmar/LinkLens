@@ -21,6 +21,14 @@ export default function LinkAnalytics(){
         }
         navigate("/links")
     }
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(`linklens.dev/${shortCode}`)
+            alert("Copied!")
+        } catch (err) {
+            console.error("Copy failed", err)
+        }
+    }
     useEffect(()=>{
         const getAllStats = async() =>{
             const res = await getStats(shortCode, page)
@@ -62,7 +70,7 @@ export default function LinkAnalytics(){
                         </div>
                         {/* right side */}
                         <div className="flex gap-3 mt-8">
-                            <button className="px-4 py-2 rounded-lg border hover:bg-green-400 hover:text-white transition">
+                            <button onClick={handleCopy} className="px-4 py-2 rounded-lg border hover:bg-green-400 hover:text-white transition">
                             Copy Link
                             </button>
                             <button onClick={handleDeleteLink} className="px-4 py-2 rounded-lg bg-[#69968F] text-white hover:bg-red-400 transition
