@@ -8,9 +8,13 @@ import apiError from "./util/apiError.js";
 import redirect from "./controller/redirect.controller.js";
 import cors from "cors"
 import { getDashboardSummary } from "./controller/dashboard.controller.js";
+import { startClicksTodayReset } from "../cron/resetClickToday.js";
 
 const port = process.env.port || 8000
 const app = express()
+
+//cron
+startClicksTodayReset()
 
 app.use(cors({
     origin: "http://localhost:5173",
